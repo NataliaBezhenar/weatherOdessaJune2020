@@ -11,23 +11,30 @@ with open(filename) as f:
         print(index, column_header)
 
     # Temperatures reading form file
-    dates, temperatures = [], []
+    dates, temperatures, winds = [], [], []
     for row in reader:
         current_date = datetime.strptime(row[0], "%Y%m%dT%H%M%S")
         dates.append(current_date)
         temp = float(row[1])
         temperatures.append(temp)
+        wind = float(row[3])
+        winds.append(wind)
 
 # Drawing figure
 fig = plt.figure(dpi=128, figsize=(10, 6))
-plt.plot(dates, temperatures, c='red')
+plt.subplot(2, 1, 1)
+plt.subplots_adjust(wspace=0, hspace=1)
 
 # Diagram formatting
-plt.title("Daily temperatures in Odessa, June 2020", fontsize=24)
+plt.title("Daily temperatures in Odessa, June 11-19th, 2020", fontsize=24)
 plt.xlabel('', fontsize=16)
-fig.autofmt_xdate()
 plt.ylabel("Temperature (C)", fontsize=16)
-plt.tick_params(axis='both', which='major', labelsize=16)
+plt.plot(dates, temperatures, c='red')
+
+plt.subplot(2, 1, 2)
+plt.title("Daily winds in Odessa, June 11-19th, 2020", fontsize=24)
+plt.xlabel('', fontsize=16)
+plt.ylabel("Wind Speed [10 m]", fontsize=16)
+plt.plot(dates, winds, c='green')
 
 plt.show()
-
